@@ -7,23 +7,17 @@ const { create, getAll, getOne } = require("../services/users");
 
 const getUser = async (req, res) => {
   const { id } = req.params;
-  getOne(id, (err, result)=>{
-	if (err)
-	return res
-	  .status(400)
-	  .send({ success: false, err });
-	  res.send({ success: true, user: result });
-})
+  getOne(id, (err, result) => {
+    if (err) return res.status(400).send({ success: false, err });
+    res.send({ success: true, user: result });
+  });
 };
 
 const getUsers = (req, res) => {
-	getAll((err, results)=>{
-		if (err)
-		return res
-		  .status(400)
-		  .send({ success: false, err });
-		  res.send({ success: true, users: results });
-	})
+  getAll((err, results) => {
+    if (err) return res.status(400).send({ success: false, err });
+    res.send({ success: true, users: results });
+  });
 };
 
 const createUser = async (req, res) => {
@@ -41,10 +35,7 @@ const createUser = async (req, res) => {
   body.id = uuidv4();
 
   create(body, (err, result) => {
-    if (err)
-      return res
-        .status(400)
-        .send({ success: false, err });
+    if (err) return res.status(400).send({ success: false, err });
 
     res.send({ success: true, message: result });
   });

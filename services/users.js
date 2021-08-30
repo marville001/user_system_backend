@@ -11,7 +11,6 @@ module.exports = {
 
         const { id, firstname, lastname, email, password, gender, age } =
           data;
-
         db.execute(
           "INSERT INTO users (_id, firstname, lastname, email, password, gender, age) VALUES(?,?,?,?,?,?,?)",
           [id, firstname, lastname, email, password, gender, age],

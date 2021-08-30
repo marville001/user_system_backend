@@ -1,10 +1,11 @@
 require('dotenv').config()
 const express = require("express")
 const app = express();
+const cors = require("cors");
 
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
-
+app.use(cors())
 const usersRoute = require('./routes/users')
 const projectsRoute = require('./routes/projects')
 const tasksRoute = require('./routes/tasks')
