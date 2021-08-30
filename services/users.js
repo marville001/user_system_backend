@@ -2,7 +2,7 @@ const db = require('../config/db')
 const _ = require("lodash");
 module.exports = {
   create:  async (data, callback) => {
-
+// fff/
     const result = await db.query("SELECT * FROM users where email = ?", [data.email])
     if (result[0]) return callback("User exists");
 
