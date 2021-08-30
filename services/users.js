@@ -1,26 +1,44 @@
 const db = require('../config/db')
 const _ = require("lodash");
 module.exports = {
-  create: (data, callback) => {
-    db.execute(
-      "SELECT * FROM users where email = ?",
-      [data.email],
-      async (err, results, fields) => {
-        if (err) return callback(err);
-        if (results[0]) return callback("User exists");
+  create:  async (data, callback) => {
 
-        const { id, firstname, lastname, email, password, gender, age } =
-          data;
-        db.execute(
-          "INSERT INTO users (_id, firstname, lastname, email, password, gender, age) VALUES(?,?,?,?,?,?,?)",
-          [id, firstname, lastname, email, password, gender, age],
-          (err, result) => {
-            if (err) return callback(err);
-            return callback(null, "User created successfully");
-          }
-        );
-      }
-    );
+    const result = await db.query("SELECT * FROM users where email = ?", [data.email])
+    if (result[0]) return callback("User exists");
+
+    const { id, firstname, lastname, email, password, gender, age } = data;
+    const exec = await db.query("INSERT INTO users (_id, firstname, lastname, email, password, gender, age) VALUES(?,?,?,?,?,?,?)",[id, firstname, lastname, email, password, gender, age]);
+    if(exec.affectedRows){
+      const user = await db.query("SELECT * FROM users where email = ?", [data.email])
+      callback(null,  _.pick(user[0], [
+        "_id",
+        "firstname",
+        "lastname",
+        "email",
+        "gender",
+        "age",
+      ]))
+    }
+
+    // db.execute(
+    //   "SELECT * FROM users where email = ?",
+    //   [data.email],
+    //   async (err, results, fields) => {
+    //     if (err) return callback(err);
+    //     if (results[0]) return callback("User exists");
+
+        // const { id, firstname, lastname, email, password, gender, age } =
+        //   data;
+    //     db.execute(
+    //       "INSERT INTO users (_id, firstname, lastname, email, password, gender, age) VALUES(?,?,?,?,?,?,?)",
+    //       [id, firstname, lastname, email, password, gender, age],
+    //       (err, result) => {
+    //         if (err) return callback(err);
+    //         return callback(null, "User created successfully");
+    //       }
+    //     );
+    //   }
+    // );
   },
 
   getAll: (callback)=>{

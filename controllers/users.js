@@ -41,8 +41,15 @@ const createUser = async (req, res) => {
   });
 };
 
+const loginUser = async(req, res)=>{
+	const users = await db.query("SELECT * FROM users")
+	res.send({users})
+
+}
+
 module.exports = {
   getUsers,
   getUser,
   createUser,
+  loginUser
 };
