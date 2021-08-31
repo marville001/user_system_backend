@@ -6,9 +6,13 @@ const { validateProject: validate } = require("../helpers/validateProject");
 const { create, getAll, getOne } = require("../services/projects");
 
 const getProject = async (req, res) => {
+    console.log(req);
     const { id } = req.params;
+    console.log({id});
     getOne(id, (err, result) => {
         if (err) return res.status(400).send({ success: false, message: err });
+
+        if(!result) return res.status(404).send({ success: false, message: "No Product found" })
         res.send({ success: true, project: result });
     });
 };

@@ -9,6 +9,7 @@ const getTask = async (req, res) => {
     const { id } = req.params;
     getOne(id, (err, result) => {
         if (err) return res.status(400).send({ success: false, message: err });
+        if(!result) return res.status(404).send({ success: false, message: "No Product found" })
         res.send({ success: true, task: result });
     });
 };
