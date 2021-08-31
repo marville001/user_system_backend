@@ -8,14 +8,14 @@ const { create, getAll, getOne } = require("../services/projects");
 const getProject = async (req, res) => {
     const { id } = req.params;
     getOne(id, (err, result) => {
-        if (err) return res.status(400).send({ success: false, err });
+        if (err) return res.status(400).send({ success: false, message: err });
         res.send({ success: true, project: result });
     });
 };
 
 const getProjects = (req, res) => {
     getAll((err, results) => {
-        if (err) return res.status(400).send({ success: false, err });
+        if (err) return res.status(400).send({ success: false, message: err });
         res.send({ success: true, projects: results });
     });
 };
@@ -32,7 +32,7 @@ const createProject = async (req, res) => {
     body.id = uuidv4();
 
     create(body, (err, project) => {
-        if (err) return res.status(400).send({ success: false, err });
+        if (err) return res.status(400).send({ success: false, message: err });
 
         res.send({ success: true, project });
     });
