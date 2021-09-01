@@ -5,7 +5,7 @@ const generateToken = require("../helpers/generateJWT");
 
 const { v4: uuidv4 } = require("uuid");
 const { validateUsers: validate } = require("../helpers/validateUser");
-const { create, getAll, getOne, login } = require("../services/users");
+const { create, getAll, getOne, login, deleteOne } = require("../services/users");
 
 const getUser = async (req, res) => {
   const { id } = req.params;
@@ -19,6 +19,18 @@ const getUsers = (req, res) => {
   getAll((err, results) => {
     if (err) return res.status(400).send({ success: false, err });
     res.send({ success: true, users: results });
+  });
+};
+
+const deleteUser = (req, res) => {
+  if (!req.body.id)
+    return res
+      .status(400)
+      .send({ success: false, message: "No User Id provided" });
+
+  deleteOne((err, message) => {
+    if (err) return res.status(400).send({ success: false, err });
+    res.send({ success: true, message});
   });
 };
 
@@ -67,5 +79,6 @@ module.exports = {
   getUsers,
   getUser,
   createUser,
-  loginUser
+  loginUser,
+  deleteUser
 };
