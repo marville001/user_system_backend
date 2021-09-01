@@ -3,7 +3,7 @@ const generateToken = require("../helpers/generateJWT");
 
 const { v4: uuidv4 } = require("uuid");
 const { validateTask: validate } = require("../helpers/validateTasks");
-const { create, getAll, getOne } = require("../services/tasks");
+const { create, getAll, getOne,deleteOne } = require("../services/tasks");
 
 const getTask = async (req, res) => {
     const { id } = req.params;
