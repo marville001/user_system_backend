@@ -38,5 +38,13 @@ module.exports = {
     } catch (err) {
       callback(err);
     }
+  },
+  deleteOne: async (id, callback) => {
+    try {
+      const results = await db.query("DELETE FROM projects WHERE _id = ?", [id]);
+      callback(null, "Deleted Successfully");
+    } catch (err) {
+      callback(err);
+    }
   }
 };
