@@ -34,5 +34,14 @@ module.exports = {
     } catch (err) {
       callback(err);
     }
+  },
+
+  deleteOne: async (id, callback) => {
+    try {
+      await db.query("DELETE FROM tasks WHERE _id = ?", [id]);
+      callback(null, "Task deleted successfully");
+    } catch (err) {
+      callback(err);
+    }
   }
 };
