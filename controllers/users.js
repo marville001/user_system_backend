@@ -39,7 +39,7 @@ const createUser = async (req, res) => {
   create(body, (err, user) => {
     if (err) return res.status(400).send({ success: false, err });
 
-    const token = generateToken(user.email, user.id)
+    const token = generateToken(user.email, user._id)
     res.send({ success: true, user, token });
   });
 };
@@ -57,7 +57,7 @@ const loginUser = async(req, res)=>{
   
   login(req.body, (err, user)=>{
     if (err) return res.status(400).send({ success: false, message: err });
-    const token = generateToken(user.email, user.id)
+    const token = generateToken(user.email, user._id)
     res.send({ success: true, user, token });
   })
   

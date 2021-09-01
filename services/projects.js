@@ -9,6 +9,9 @@ module.exports = {
 
     const results = await db.query("SELECT * FROM users WHERE _id = ?", [userid]);
     if(!results[0]) return callback("Invalid User id");
+
+    const userHasProjects = await db.query("SELECT * FROM projects WHERE userid = ?", [userid]);
+    if(userHasProjects[0]) return callback("You already has an existing project...");
     
     const exec = await db.query("INSERT INTO projects (_id,userid, title, description, duration, startdate) VALUES(?,?,?,?,?,?)", [id,userid, title, description, duration, startdate]);
     if (exec.affectedRows) {

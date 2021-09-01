@@ -6,9 +6,7 @@ const { validateProject: validate } = require("../helpers/validateProject");
 const { create, getAll, getOne } = require("../services/projects");
 
 const getProject = async (req, res) => {
-    console.log(req);
     const { id } = req.params;
-    console.log({id});
     getOne(id, (err, result) => {
         if (err) return res.status(400).send({ success: false, message: err });
 
@@ -34,6 +32,7 @@ const createProject = async (req, res) => {
     let body = req.body;
 
     body.id = uuidv4();
+    body.userid = req.user.id;
 
     create(body, (err, project) => {
         if (err) return res.status(400).send({ success: false, message: err });
@@ -43,6 +42,25 @@ const createProject = async (req, res) => {
 };
 
 
+const deleteProject = async (req, res) => {
+    const { error } = validate(req.body);
+    if (error)
+        return res
+            .status(400)
+            .send({ success: false, message: error.details[0].message });
+
+    let body = req.body;
+
+    body.id = uuidv4();
+    body.userid = req.user.id;
+
+    create(body, (err, project) => {
+        if (err) return res.status(400).send({ success: false, message: err });
+
+        res.send({ success: true, project });
+    });
+};
+
 module.exports = {
-    getProject, getProjects, createProject
+    getProject, getProjects, createProject,deleteProject
 };
