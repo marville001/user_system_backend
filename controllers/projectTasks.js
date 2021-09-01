@@ -9,7 +9,7 @@ const getTask = async (req, res) => {
     const { id } = req.params;
     getOne(id, (err, result) => {
         if (err) return res.status(400).send({ success: false, message: err });
-        if(!result) return res.status(404).send({ success: false, message: "No Product found" })
+        if (!result) return res.status(404).send({ success: false, message: "No Product found" })
         res.send({ success: true, task: result });
     });
 };
@@ -39,7 +39,21 @@ const createTask = async (req, res) => {
     });
 };
 
+const deleteTask = async (req, res) => {
+    if (!req.body.id)
+        return res
+            .status(400)
+            .send({ success: false, message: "No ID is provided" });
+
+
+    deleteOne(req.body.id, (err, message) => {
+        if (err) return res.status(400).send({ success: false, message: err });
+
+        res.send({ success: true, message });
+    });
+};
+
 
 module.exports = {
-    getTask, getTasks, createTask
+    getTask, getTasks, createTask, deleteTask
 };
