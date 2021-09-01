@@ -59,6 +59,14 @@ module.exports = {
       callback(err);
     }
   },
+  deleteUser: async (id, callback) => {
+    try {
+      const results = await db.query("DELETE  FROM users WHERE _id = ?", [id]);
+      callback(null, "User deleted successfully");
+    } catch (err) {
+      callback(err);
+    }
+  },
 
   login: async (data, callback) => {
     try {
